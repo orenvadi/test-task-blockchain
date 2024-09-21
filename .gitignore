@@ -1,5 +1,9 @@
-# Ignore all task.md files
+# ignore all task.md files
 **/task.md
 
-# Ignore all PDF files
+# ignore all PDF files
 *.pdf
+
+# ignore config.json file
+
+**/config.json
