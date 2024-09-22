@@ -50,13 +50,6 @@ go run main.go run --rpc=https://mainnet.infura.io/v3/YOUR-PROJECT-ID --start=1 
 ## Пример вывода
 
 ```
-Number: 1
-Hash: 0xabc...
-TxCount: 10
-Timestamp: 2023-07-10T10:30:00Z
-
-Number: 2
-Hash: 0xdef...
-TxCount: 15
-Timestamp: 2023-07-10T10:30:12Z
+Number: 1 Hash: 0xabc... TxCount: 10 Timestamp: 2023-07-10T10:30:00Z
+Number: 2 Hash: 0xdef... TxCount: 15 Timestamp: 2023-07-10T10:30:12Z
 ```
