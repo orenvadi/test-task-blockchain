@@ -4,9 +4,9 @@ This application provides a simple REST API to fetch the total supply of NGL tok
 
 ## Setup
 
-1. Clone the repository.
-2. Install Go on your system if it's not installed yet.
-3. In order to install dependencies run:
+1. Clone this repo.
+2. Install Go on your system if it's not installed.
+3. Install dependencies:
     ```bash
     go mod tidy
     ```
@@ -15,7 +15,7 @@ This application provides a simple REST API to fetch the total supply of NGL tok
 
 Configuration can be provided in two ways:
 
-1. Through a `config.json` file with the following structure:
+1. With a `config.json`:
     ```json
     {
         "port": "8080",
@@ -24,12 +24,12 @@ Configuration can be provided in two ways:
     ```
 
 2. Alternatively, the configuration can be provided via environment variables:
-    - `PORT`: The port number to run the server on (e.g., `8080`).
-    - `URL`: The URL of the external service providing the NGL token supply.
+    - `PORT`: The port number to run the server(`8080`).
+    - `URL`: The URL of the external service providing the NGL token.
 
 ## Running the Application
 
-1. Make sure the config is set up properly (either by providing a `config.json` file or setting environment variables).
+1. Config must be properly setted up (either by a `config.json` or environment variables .env).
 2. Build the application and run:
 
    ```bash

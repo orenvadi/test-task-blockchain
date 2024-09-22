@@ -14,7 +14,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Structure for storing block info
 type BlockInfo struct {
 	Number    *big.Int
 	Hash      string
@@ -45,6 +44,7 @@ func main() {
 }
 
 func runIndexer() {
+	fmt.Println("Press Ctrl+C to stop")
 	rpcURL := viper.GetString("rpc")
 	startBlock := viper.GetInt64("start")
 	outFile := viper.GetString("out")
@@ -53,6 +53,8 @@ func runIndexer() {
 	if err != nil {
 		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
 	}
+
+	log.Printf("Connected to the Ethereum client: %s", rpcURL)
 
 	file, err := os.OpenFile(outFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
 	if err != nil {
@@ -67,7 +69,7 @@ func runIndexer() {
 	var wg sync.WaitGroup
 	defer wg.Wait()
 
-	// Start writer goroutine
+	// start writer goroutine
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
@@ -76,7 +78,7 @@ func runIndexer() {
 		}
 	}()
 
-	// Start fetching blocks sequentially from the starting block
+	// start fetching blocks sequentially from the starting block
 	for i := startBlock; ; i++ {
 		blockNumber := big.NewInt(i)
 		wg.Add(1)
@@ -87,16 +89,17 @@ func runIndexer() {
 				log.Printf("Failed to fetch block %d: %v", blockNumber.Int64(), err)
 				return
 			}
+			log.Printf("Fetched block: %d", blockNumber)
 			blockCh <- blockInfo
 		}(blockNumber)
-		time.Sleep(2 * time.Second) // Add delay to avoid overwhelming the network
+		time.Sleep(2 * time.Second) // delay to avoid overwhelming the network
 	}
-
-	// close(blockCh)
-	// wg.Wait()
 }
 
-func fetchBlock(client *ethclient.Client, blockNumber *big.Int) (*BlockInfo, error) {
+func fetchBlock(
+	client *ethclient.Client,
+	blockNumber *big.Int,
+) (*BlockInfo, error) {
 	block, err := client.BlockByNumber(context.Background(), blockNumber)
 	if err != nil {
 		return nil, err
@@ -111,11 +114,11 @@ func fetchBlock(client *ethclient.Client, blockNumber *big.Int) (*BlockInfo, err
 }
 
 func writeBlockToFile(file *os.File, block *BlockInfo) {
-	output := fmt.Sprintf("Number: %d\nHash: %s\nTxCount: %d\nTimestamp: %s\n",
+	output := fmt.Sprintf("Number: %d Hash: %s TxCount: %d Timestamp: %s\n",
 		block.Number.Int64(),
 		block.Hash,
 		block.TxCount,
-		block.Timestamp.Format(time.RFC3339))
+		block.Timestamp.Format(time.RFC3339)) // yyyy-MM-dd'T'HH:mm:ssXXX
 	if _, err := file.WriteString(output); err != nil {
 		log.Fatalf("Failed to write to output file: %v", err)
 	}
