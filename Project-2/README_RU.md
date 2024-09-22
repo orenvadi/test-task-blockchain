@@ -23,25 +23,25 @@
 
 Для установки зависимостей:
 
-``bash
+```bash
 go mod tidy
 ```
 
 ## Создание бинарного файла
 
-``bash
+```bash
 go build main.go
 ```
 
 ## Запуск индексатора
 
-``bash
+```bash
 go run main.go run --rpc=<ваш-rpc-url> --start=<номер блока> --out=<выходной файл>
 ```
 
 ### Пример
 
-``bash
+```bash
 go run main.go run --rpc=https://mainnet.infura.io/v3/YOUR-PROJECT-ID --start=1 --out=blocks.log
 ```
 
